@@ -32,10 +32,11 @@ import com.example.appmobileparcialuno.ui.theme.AppMobileParcialUnoTheme
 @Composable
 fun MainPage(modifier: Modifier = Modifier) {
 
+    val navHostController = rememberNavController()
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
-    
+
     Column(
         Modifier
             .fillMaxSize()
@@ -63,7 +64,7 @@ fun MainPage(modifier: Modifier = Modifier) {
                 if (email == "pedro@pe.com.ar" && password == "abc123") {
                     // Acceso exitoso
                     errorMessage = ""
-                    // Aquí puedes navegar a la siguiente pantalla o realizar otra acción
+                    navHostController.navigate("welcome")
                 } else {
                     // Datos incorrectos
                     errorMessage = "Ingresaste datos incorrectos"
@@ -76,6 +77,22 @@ fun MainPage(modifier: Modifier = Modifier) {
         if (errorMessage.isNotEmpty()) {
             Text(errorMessage)
         }
+    }
+}
+
+
+@Composable
+fun MainNavHost(
+    modifier: Modifier = Modifier,
+    navHostController : NavHostController
+) {
+    NavHost(
+        modifier = modifier,
+        navController = navHostController,
+        startDestination = "main"
+    ) {
+        composable("main") { MainPage() }
+        composable("welcome") { WelcomePage() }
     }
 }
 
