@@ -25,6 +25,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.appmobileparcialuno.ui.theme.AppMobileParcialUnoTheme
@@ -33,6 +34,8 @@ import com.example.appmobileparcialuno.ui.theme.AppMobileParcialUnoTheme
 fun MainPage(modifier: Modifier = Modifier) {
 
     val navHostController = rememberNavController()
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
