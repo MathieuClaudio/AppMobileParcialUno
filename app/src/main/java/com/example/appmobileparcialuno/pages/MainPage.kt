@@ -34,53 +34,10 @@ import com.example.appmobileparcialuno.ui.theme.AppMobileParcialUnoTheme
 fun MainPage(modifier: Modifier = Modifier) {
 
     val navHostController = rememberNavController()
-    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf("") }
+//    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+//    val currentRoute = navBackStackEntry?.destination?.route
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Text(text = "CAM", fontSize = 70.sp, fontWeight = FontWeight.Bold)
-        Text(text = "Inicia con tu cuenta")
-        Spacer(modifier = Modifier.height(24.dp))
-        TextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {
-                if (email == "pedro@pe.com.ar" && password == "abc123") {
-                    // Acceso exitoso
-                    errorMessage = ""
-                    navHostController.navigate("welcome")
-                } else {
-                    // Datos incorrectos
-                    errorMessage = "Ingresaste datos incorrectos"
-                }
-            }
-        ) {
-            Text("Ingresar")
-        }
-
-        if (errorMessage.isNotEmpty()) {
-            Text(errorMessage)
-        }
-    }
+        MainNavHost(modifier, navHostController)
 }
 
 
@@ -92,10 +49,10 @@ fun MainNavHost(
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = "main"
+        startDestination = "login"
     ) {
-        composable("main") { MainPage() }
-        composable("welcome") { WelcomePage() }
+        composable("login") { LoginPage(navHostController) }
+        composable("welcome") { WelcomePage(navHostController) }
     }
 }
 
