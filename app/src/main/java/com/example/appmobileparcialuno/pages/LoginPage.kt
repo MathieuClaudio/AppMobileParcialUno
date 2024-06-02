@@ -21,6 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.appmobileparcialuno.routes.Routes
 import com.example.appmobileparcialuno.ui.theme.AppMobileParcialUnoTheme
 
 @Composable
@@ -58,7 +60,7 @@ fun LoginPage(
                 if (email == "pedro@pe.com.ar" && password == "abc123") {
                     // Acceso exitoso
                     errorMessage = ""
-                    navController.navigate("welcome")
+                    navController.navigate(Routes.Page2.createRoute(email))
                 } else {
                     // Datos incorrectos
                     errorMessage = "Ingresaste datos incorrectos"
@@ -76,8 +78,9 @@ fun LoginPage(
 
 @Preview(showBackground = true)
 @Composable
-fun LoginPagePreview(navController : NavHostController) {
+fun LoginPagePreview() {
+    val navHostController = rememberNavController()
     AppMobileParcialUnoTheme {
-        LoginPage(navController = navController)
+        LoginPage(navHostController)
     }
 }

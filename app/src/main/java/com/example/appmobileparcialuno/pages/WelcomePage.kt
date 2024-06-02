@@ -32,16 +32,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.appmobileparcialuno.routes.Routes
 import com.example.appmobileparcialuno.ui.theme.AppMobileParcialUnoTheme
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomePage(
-    navController : NavHostController
+    navController : NavHostController,
+    emailName: String
 ) {
-    val navController = navController
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -54,18 +55,18 @@ fun WelcomePage(
                     label = {
                             Text(text = "Cerrar Sesión")
                     },
-                    selected = currentRoute== "login",
+                    selected = currentRoute== Routes.Page1.routes,
                     onClick = {
-                        navController.navigate("login")
+                        navController.navigate(Routes.Page1.routes)
                     },
                 )
                 NavigationDrawerItem(
                     label = {
                         Text(text = "Welcome")
                     },
-                    selected = currentRoute== "welcome",
+                    selected = currentRoute== Routes.Page2.routes,
                     onClick = {
-                        navController.navigate("welcome")
+                        navController.navigate(Routes.Page2.createRoute(emailName))
                         coroutineScope.launch {
                             drawerState.close()
                         }
@@ -123,7 +124,11 @@ fun WelcomePage(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 Text(
-                    text = "Hola Pedro Pe",
+                    text = "Hola Pedro",
+                    fontSize = 24.sp
+                )
+                Text(
+                    text = emailName,
                     fontSize = 24.sp
                 )
             }
@@ -136,8 +141,9 @@ fun WelcomePage(
 
 @Preview(showBackground = true)
 @Composable
-fun WelcomePagePreview(navController : NavHostController) {
+fun WelcomePagePreview() {
+    val navHostController = rememberNavController()
     AppMobileParcialUnoTheme {
-        WelcomePage(navController = navController)
+        WelcomePage(navHostController, "test@test.com")
     }
 }
